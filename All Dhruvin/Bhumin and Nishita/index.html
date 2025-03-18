@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kashmir</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 10px;
+  }
+  .gallery img {
+    width: 100%;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    .modal-content {
+      margin: 15% auto;
+      display: block;
+      max-width: 80%;
+    }
+    .close, .prev, .next {
+      position: absolute;
+      top: 50%;
+      color: #fff;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+    }
+    .close {
+      top: 10px;
+      right: 25px;
+    }
+    .prev {
+      left: 10px;
+    }
+    .next {
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Image Gallery</h1>
+  <div class="gallery" id="gallery"></div>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <span class="prev">&#10094;</span>
+    <span class="next">&#10095;</span>
+    <img class="modal-content" id="img01">
+  </div>
+
+  <script>
+    // Function to dynamically load images
+    function loadImages() {
+      const gallery = document.getElementById('gallery');
+      const imagesFolder = './';  // Folder where your images are located
+      
+      // A list of image file names in the folder
+      const imageFiles = ["20250310_155131.jpg","20250310_164557.jpg","20250310_164559.jpg","20250310_164606.jpg","20250310_164608.jpg","20250311_115506.jpg","20250311_115530.jpg","20250311_120711.jpg","20250311_120712.jpg","20250311_120718.jpg","20250311_120719.jpg","20250311_123246.jpg","20250311_123248.jpg","20250311_150308.jpg","20250311_150310.jpg","20250312_121354.jpg","20250312_121356.jpg","20250312_121401.jpg","20250312_121403.jpg","20250312_121424.jpg","20250312_121426.jpg","20250312_121433.jpg","20250312_121436.jpg","20250312_121438.jpg","20250312_121444.jpg","20250312_121447.jpg","20250312_121507.jpg","20250312_121515.jpg","20250312_121516.jpg","20250312_183816.jpg","20250312_183828.jpg","20250312_184039.jpg","20250312_184043.jpg","20250312_184048.jpg","20250312_184054.jpg","20250312_184110.jpg","20250313_105606.jpg","20250313_105610.jpg","20250313_144444.jpg","20250313_151117.jpg","20250313_151118.jpg","20250313_151119.jpg","20250313_151132.jpg","20250313_151138.jpg","20250313_151140.jpg","20250313_151141.jpg","20250313_151200.jpg","20250313_151201.jpg","20250313_151206(0).jpg","20250313_151206.jpg","20250313_151330.jpg","20250313_151332.jpg","20250313_151342.jpg","20250313_151348.jpg","20250313_151349.jpg","20250313_151404.jpg","20250313_151406.jpg","20250313_151409.jpg","20250313_151410.jpg","20250313_151419(0).jpg","20250313_151419.jpg","20250313_151432.jpg","20250313_151433.jpg","20250315_092303.jpg","20250315_092307.jpg","20250315_092308.jpg","20250315_092325.jpg","20250315_092326.jpg","20250315_092327.jpg","20250315_092348.jpg","20250315_092353.jpg","20250315_092355.jpg","20250315_100609.jpg","20250315_100613.jpg","20250315_100619.jpg","20250316_101328.jpg","20250316_101335.jpg","20250316_101339.jpg","20250316_101408.jpg","20250316_101413.jpg","20250316_101436.jpg","20250316_101438.jpg"]
+
+      // Loop through each image file and create an img element for each
+      imageFiles.forEach((image, index) => {
+        const imgElement = document.createElement('img');
+        imgElement.src = imagesFolder + image;
+        imgElement.alt = image;
+        imgElement.dataset.index = index;
+        gallery.appendChild(imgElement);
+
+        // Add click event to open modal
+        imgElement.onclick = function() {
+          openModal(index);
+        }
+      });
+    }
+
+    // Function to open the modal
+    function openModal(index) {
+      const modal = document.getElementById('myModal');
+      const modalImg = document.getElementById('img01');
+      const imageFiles = ["20250310_155131.jpg","20250310_164557.jpg","20250310_164559.jpg","20250310_164606.jpg","20250310_164608.jpg","20250311_115506.jpg","20250311_115530.jpg","20250311_120711.jpg","20250311_120712.jpg","20250311_120718.jpg","20250311_120719.jpg","20250311_123246.jpg","20250311_123248.jpg","20250311_150308.jpg","20250311_150310.jpg","20250312_121354.jpg","20250312_121356.jpg","20250312_121401.jpg","20250312_121403.jpg","20250312_121424.jpg","20250312_121426.jpg","20250312_121433.jpg","20250312_121436.jpg","20250312_121438.jpg","20250312_121444.jpg","20250312_121447.jpg","20250312_121507.jpg","20250312_121515.jpg","20250312_121516.jpg","20250312_183816.jpg","20250312_183828.jpg","20250312_184039.jpg","20250312_184043.jpg","20250312_184048.jpg","20250312_184054.jpg","20250312_184110.jpg","20250313_105606.jpg","20250313_105610.jpg","20250313_144444.jpg","20250313_151117.jpg","20250313_151118.jpg","20250313_151119.jpg","20250313_151132.jpg","20250313_151138.jpg","20250313_151140.jpg","20250313_151141.jpg","20250313_151200.jpg","20250313_151201.jpg","20250313_151206(0).jpg","20250313_151206.jpg","20250313_151330.jpg","20250313_151332.jpg","20250313_151342.jpg","20250313_151348.jpg","20250313_151349.jpg","20250313_151404.jpg","20250313_151406.jpg","20250313_151409.jpg","20250313_151410.jpg","20250313_151419(0).jpg","20250313_151419.jpg","20250313_151432.jpg","20250313_151433.jpg","20250315_092303.jpg","20250315_092307.jpg","20250315_092308.jpg","20250315_092325.jpg","20250315_092326.jpg","20250315_092327.jpg","20250315_092348.jpg","20250315_092353.jpg","20250315_092355.jpg","20250315_100609.jpg","20250315_100613.jpg","20250315_100619.jpg","20250316_101328.jpg","20250316_101335.jpg","20250316_101339.jpg","20250316_101408.jpg","20250316_101413.jpg","20250316_101436.jpg","20250316_101438.jpg"]
+
+      modal.style.display = 'block';
+      modalImg.src = 'https://raw.githubusercontent.com/Dhruvin28/Kashmir-2025/refs/heads/main/All%20Dhruvin/Bhumin%20and%20Nishita/' + imageFiles[index];
+      modalImg.dataset.index = index;
+    }
+
+    // Function to close the modal
+    function closeModal() {
+      const modal = document.getElementById('myModal');
+      modal.style.display = 'none';
+    }
+
+    // Function to show the next image
+    function showNext() {
+      const modalImg = document.getElementById('img01');
+      const imageFiles = ["20250310_155131.jpg","20250310_164557.jpg","20250310_164559.jpg","20250310_164606.jpg","20250310_164608.jpg","20250311_115506.jpg","20250311_115530.jpg","20250311_120711.jpg","20250311_120712.jpg","20250311_120718.jpg","20250311_120719.jpg","20250311_123246.jpg","20250311_123248.jpg","20250311_150308.jpg","20250311_150310.jpg","20250312_121354.jpg","20250312_121356.jpg","20250312_121401.jpg","20250312_121403.jpg","20250312_121424.jpg","20250312_121426.jpg","20250312_121433.jpg","20250312_121436.jpg","20250312_121438.jpg","20250312_121444.jpg","20250312_121447.jpg","20250312_121507.jpg","20250312_121515.jpg","20250312_121516.jpg","20250312_183816.jpg","20250312_183828.jpg","20250312_184039.jpg","20250312_184043.jpg","20250312_184048.jpg","20250312_184054.jpg","20250312_184110.jpg","20250313_105606.jpg","20250313_105610.jpg","20250313_144444.jpg","20250313_151117.jpg","20250313_151118.jpg","20250313_151119.jpg","20250313_151132.jpg","20250313_151138.jpg","20250313_151140.jpg","20250313_151141.jpg","20250313_151200.jpg","20250313_151201.jpg","20250313_151206(0).jpg","20250313_151206.jpg","20250313_151330.jpg","20250313_151332.jpg","20250313_151342.jpg","20250313_151348.jpg","20250313_151349.jpg","20250313_151404.jpg","20250313_151406.jpg","20250313_151409.jpg","20250313_151410.jpg","20250313_151419(0).jpg","20250313_151419.jpg","20250313_151432.jpg","20250313_151433.jpg","20250315_092303.jpg","20250315_092307.jpg","20250315_092308.jpg","20250315_092325.jpg","20250315_092326.jpg","20250315_092327.jpg","20250315_092348.jpg","20250315_092353.jpg","20250315_092355.jpg","20250315_100609.jpg","20250315_100613.jpg","20250315_100619.jpg","20250316_101328.jpg","20250316_101335.jpg","20250316_101339.jpg","20250316_101408.jpg","20250316_101413.jpg","20250316_101436.jpg","20250316_101438.jpg"]
+      let index = parseInt(modalImg.dataset.index);
+      index = (index + 1) % imageFiles.length;
+      modalImg.src = 'https://raw.githubusercontent.com/Dhruvin28/Kashmir-2025/refs/heads/main/All%20Dhruvin/Bhumin%20and%20Nishita/' + imageFiles[index];
+      modalImg.dataset.index = index;
+    }
+
+    // Function to show the previous image
+    function showPrev() {
+      const modalImg = document.getElementById('img01');
+      const imageFiles = ["20250310_155131.jpg","20250310_164557.jpg","20250310_164559.jpg","20250310_164606.jpg","20250310_164608.jpg","20250311_115506.jpg","20250311_115530.jpg","20250311_120711.jpg","20250311_120712.jpg","20250311_120718.jpg","20250311_120719.jpg","20250311_123246.jpg","20250311_123248.jpg","20250311_150308.jpg","20250311_150310.jpg","20250312_121354.jpg","20250312_121356.jpg","20250312_121401.jpg","20250312_121403.jpg","20250312_121424.jpg","20250312_121426.jpg","20250312_121433.jpg","20250312_121436.jpg","20250312_121438.jpg","20250312_121444.jpg","20250312_121447.jpg","20250312_121507.jpg","20250312_121515.jpg","20250312_121516.jpg","20250312_183816.jpg","20250312_183828.jpg","20250312_184039.jpg","20250312_184043.jpg","20250312_184048.jpg","20250312_184054.jpg","20250312_184110.jpg","20250313_105606.jpg","20250313_105610.jpg","20250313_144444.jpg","20250313_151117.jpg","20250313_151118.jpg","20250313_151119.jpg","20250313_151132.jpg","20250313_151138.jpg","20250313_151140.jpg","20250313_151141.jpg","20250313_151200.jpg","20250313_151201.jpg","20250313_151206(0).jpg","20250313_151206.jpg","20250313_151330.jpg","20250313_151332.jpg","20250313_151342.jpg","20250313_151348.jpg","20250313_151349.jpg","20250313_151404.jpg","20250313_151406.jpg","20250313_151409.jpg","20250313_151410.jpg","20250313_151419(0).jpg","20250313_151419.jpg","20250313_151432.jpg","20250313_151433.jpg","20250315_092303.jpg","20250315_092307.jpg","20250315_092308.jpg","20250315_092325.jpg","20250315_092326.jpg","20250315_092327.jpg","20250315_092348.jpg","20250315_092353.jpg","20250315_092355.jpg","20250315_100609.jpg","20250315_100613.jpg","20250315_100619.jpg","20250316_101328.jpg","20250316_101335.jpg","20250316_101339.jpg","20250316_101408.jpg","20250316_101413.jpg","20250316_101436.jpg","20250316_101438.jpg"]
+      let index = parseInt(modalImg.dataset.index);
+      index = (index - 1 + imageFiles.length) % imageFiles.length;
+      modalImg.src = 'https://raw.githubusercontent.com/Dhruvin28/Kashmir-2025/refs/heads/main/All%20Dhruvin/Bhumin%20and%20Nishita/' + imageFiles[index];
+      modalImg.dataset.index = index;
+    }
+
+    // Load the images when the page loads
+    window.onload = loadImages;
+
+    // Get the modal
+    const modal = document.getElementById('myModal');
+
+    // Get the <span> elements that close the modal and navigate
+    const span = document.getElementsByClassName('close')[0];
+    const prev = document.getElementsByClassName('prev')[0];
+    const next = document.getElementsByClassName('next')[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = closeModal;
+
+    // When the user clicks on <span> (prev), show the previous image
+    prev.onclick = showPrev;
+
+    // When the user clicks on <span> (next), show the next image
+    next.onclick = showNext;
+  </script>
+
+</body>
+</html>
